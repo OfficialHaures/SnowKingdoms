@@ -1,33 +1,37 @@
 package nl.officialhaures.snow.commands;
 
+import me.mattstudios.mf.annotations.Alias;
+import me.mattstudios.mf.annotations.Command;
+import me.mattstudios.mf.annotations.Default;
+import me.mattstudios.mf.base.CommandBase;
 import nl.officialhaures.snow.SnowPix;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-public class KingdomCommands implements CommandExecutor {
+@Command("kingdom")
+@Alias("k")
+
+public class KingdomCommands extends CommandBase {
 
     private SnowPix plugin;
 
-    public KingdomCommands(SnowPix plugin) {
-        plugin = this.plugin;
+    public KingdomCommands(SnowPix plugin){
+        this.plugin = plugin;
     }
 
-    @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(plugin.getUtilManager().getColor().addColor("&4 You may only use this command as a player!"));
-            return false;
-        }
+    @Default
+    public void onDefaultChat(final CommandSender sender){
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&l-------------------------"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6Kingdom Commands:"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom create <name>"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom list - Get all the kingdom names"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom info <kingdom> - Get information on a specific kingdom"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom join <kingdom> - Join a kingdom"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom leave - Leave your current kingdom"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom kick - Kick a player out of the kingdom"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom togglepvp - Toggled friendlyfire in the kingdom"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom enemy <kingdom> - Declare war on another kingdom"));
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom ally <kingdom> - Make peace with another kingdom"));
 
-        Player player = (Player) commandSender;
-        if (command.getName().equalsIgnoreCase("kingdom")) {
-            if (strings.length == 0) {
-                player.sendMessage(plugin.getUtilManager().getColor().addColor("&6&lKingdom Commands:"));
-                player.sendMessage(plugin.getUtilManager().getColor().addColor("&e/kingdom"));
-            }
-        }
-        return true;
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&l-------------------------"));
     }
 }

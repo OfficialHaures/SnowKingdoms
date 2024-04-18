@@ -67,5 +67,10 @@
           <version>1.20.4-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
+      <dependency>
+          <groupId>me.mattstudios.utils</groupId>
+          <artifactId>matt-framework</artifactId>
+          <version>1.4</version> <!-- replace version here -->
+      </dependency>
   </dependencies>
 </project>
