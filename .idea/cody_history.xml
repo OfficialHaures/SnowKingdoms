@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChatHistory">
+    <chats>
+      <list>
+        <chat>
+          <accountId value="VXNlcjozOTI5MzQ=" />
+          <internalId value="867bc05f-91b7-4875-b76f-2af451681f85" />
+          <llm>
+            <llm>
+              <model value="anthropic/claude-3-sonnet-20240229" />
+              <provider value="Anthropic" />
+              <title value="Claude 3 Sonnet" />
+            </llm>
+          </llm>
+          <messages>
+            <list>
+              <message>
+                <speaker value="HUMAN" />
+                <text value="  - Kingdom Chats [&#10;&#9;Kingdom Chat: Default Chat&#10;&#9;!: Public Chat,&#10;&#9;#: Roleplay Chat;&#10;]&#10;&#10;spigot 1.20.4" />
+              </message>
+              <message>
+                <speaker value="ASSISTANT" />
+                <text value="Based on the provided code snippets and context, it appears that this is a Spigot plugin for Minecraft version 1.20.4 that implements a custom chat system for a kingdom-themed server. Here's a breakdown of the functionality:&#10;&#10;1. `KingdomChatListener` class:&#10;   - This class listens for player chat events using the `AsyncPlayerChatEvent` event handler.&#10;   - If the player's message starts with `!`, it is treated as a public chat message. The event is canceled, and the message (without the `!` prefix) is sent using the `KingdomChatManager.sendMessage` method with the `ChatType.PUBLIC` parameter.&#10;   - If the player's message starts with `#`, it is treated as a roleplay chat message. The event is canceled, and the message (without the `#` prefix) is sent using the `KingdomChatManager.sendMessage` method with the `ChatType.ROLEPLAY` parameter.&#10;   - If the player's message does not start with `!` or `#`, it is treated as a default chat message and sent using the `KingdomChatManager.sendMessage` method with the `ChatType.DEFAULT` parameter.&#10;&#10;2. `SnowPix` plugin:&#10;   - Both the `KingdomChatListener` and `KingdomCommands` classes have a reference to the `SnowPix` plugin instance, which is likely the main plugin class.&#10;&#10;3. Kingdom Chat Types:&#10;   - There are three chat types defined:&#10;     - Default Chat: Regular chat messages without any prefix.&#10;     - Public Chat: Messages prefixed with `!`.&#10;     - Roleplay Chat: Messages prefixed with `#`.&#10;&#10;The purpose of this plugin seems to be providing a custom chat experience for a kingdom-themed Minecraft server. Players can use different prefixes to send messages to different chat channels (public, roleplay, or default). The `KingdomChatManager` class (not shown in the provided code) likely handles the formatting and distribution of messages to the appropriate recipients based on the specified chat type." />
+              </message>
+              <message>
+                <speaker value="HUMAN" />
+                <text value="Kan je het maken" />
+              </message>
+              <message>
+                <speaker value="ASSISTANT" />
+                <text value="Zeker, ik kan je helpen met het maken van deze Spigot plugin voor Minecraft 1.20.4. Hier is een basisstructuur die je kunt gebruiken als startpunt:&#10;&#10;1. Maak een nieuw Maven-project voor je Spigot plugin.&#10;&#10;2. Voeg de volgende afhankelijkheden toe aan je `pom.xml` bestand:&#10;&#10;```xml&#10;&lt;dependencies&gt;&#10;    &lt;dependency&gt;&#10;        &lt;groupId&gt;org.spigotmc&lt;/groupId&gt;&#10;        &lt;artifactId&gt;spigot-api&lt;/artifactId&gt;&#10;        &lt;version&gt;1.20.4-R0.1-SNAPSHOT&lt;/version&gt;&#10;        &lt;scope&gt;provided&lt;/scope&gt;&#10;    &lt;/dependency&gt;&#10;&lt;/dependencies&gt;&#10;```&#10;&#10;3. Maak een nieuwe klasse voor je hoofdplugin, bijvoorbeeld `SnowPix.java`. Deze klasse moet de `JavaPlugin` klasse overerven en de `onEnable` en `onDisable` methoden overschrijven.&#10;&#10;```java&#10;public class SnowPix extends JavaPlugin {&#10;&#10;    @Override&#10;    public void onEnable() {&#10;        // Plugin instellingen en registraties&#10;        getServer().getPluginManager().registerEvents(new KingdomChatListener(this), this);&#10;        getCommand(&quot;kingdom&quot;).setExecutor(new KingdomCommands(this));&#10;    }&#10;&#10;    @Override&#10;    public void onDisable() {&#10;        // Plugin uitschakelen&#10;    }&#10;}&#10;```&#10;&#10;4. Maak de `KingdomChatListener` klasse en implementeer de `onPlayerChat` methode zoals in de gegeven code.&#10;&#10;5. Maak de `KingdomChatManager` klasse die verantwoordelijk is voor het verzenden van berichten naar de juiste chatkanalen. Deze klasse kan de `sendMessage` methode bevatten die wordt aangeroepen vanuit de `KingdomChatListener`.&#10;&#10;6. Maak de `KingdomCommands` klasse voor eventuele commando's die je wilt toevoegen aan je plugin.&#10;&#10;7. Registreer de `KingdomChatListener` en `KingdomCommands` in de `onEnable` methode van je `SnowPix` hoofdplugin.&#10;&#10;8. Compileer je plugin en plaats de resulterende JAR-file in de `plugins` map van je Spigot server.&#10;&#10;Hier is een voorbeeld van hoe de `KingdomChatManager` klasse eruit zou kunnen zien:&#10;&#10;```java&#10;public class KingdomChatManager {&#10;    private static final String PUBLIC_PREFIX = &quot;§7[§6Public§7] §r&quot;;&#10;    private static final String ROLEPLAY_PREFIX = &quot;§7[§5Roleplay§7] §r&quot;;&#10;    private static final String DEFAULT_PREFIX = &quot;§7[§aDefault§7] §r&quot;;&#10;&#10;    public static void sendMessage(Player player, ChatType chatType, String message) {&#10;        String prefix;&#10;        switch (chatType) {&#10;            case PUBLIC:&#10;                prefix = PUBLIC_PREFIX;&#10;                break;&#10;            case ROLEPLAY:&#10;                prefix = ROLEPLAY_PREFIX;&#10;                break;&#10;            case DEFAULT:&#10;            default:&#10;                prefix = DEFAULT_PREFIX;&#10;                break;&#10;        }&#10;&#10;        String formattedMessage = prefix + player.getDisplayName() + &quot;: &quot; + message;&#10;        Bukkit.broadcastMessage(formattedMessage);&#10;    }&#10;&#10;    public enum ChatType {&#10;        PUBLIC,&#10;        ROLEPLAY,&#10;        DEFAULT&#10;    }&#10;}&#10;```&#10;&#10;In deze `KingdomChatManager` klasse wordt de `sendMessage` methode gedefinieerd die het bericht verstuurt naar alle spelers op de server met het juiste voorvoegsel op basis van het opgegeven `ChatType`. De `ChatType` enum definieert de verschillende chattypen die worden ondersteund.&#10;&#10;Laat me weten als je verdere vragen of problemen hebt tijdens het ontwikkelen van deze plugin." />
+              </message>
+            </list>
+          </messages>
+          <updatedAt value="2024-04-17T22:06:38.5291252" />
+        </chat>
+        <chat>
+          <accountId value="VXNlcjozOTI5MzQ=" />
+          <internalId value="221e722a-6990-4e97-b75d-3624c131a41b" />
+          <llm>
+            <llm>
+              <model value="anthropic/claude-3-sonnet-20240229" />
+              <provider value="Anthropic" />
+              <title value="Claude 3 Sonnet" />
+            </llm>
+          </llm>
+        </chat>
+      </list>
+    </chats>
+    <defaultLlm>
+      <llm>
+        <model value="anthropic/claude-3-sonnet-20240229" />
+        <provider value="Anthropic" />
+        <title value="Claude 3 Sonnet" />
+      </llm>
+    </defaultLlm>
+  </component>
+</project>
