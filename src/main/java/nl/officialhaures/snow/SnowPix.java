@@ -20,13 +20,12 @@ public final class SnowPix extends JavaPlugin {
         utilManager = new UtilManager();
         getServer().getPluginManager().registerEvents(new PlayerListeners(instance), this);
         getServer().getPluginManager().registerEvents(new KingdomChatListener(), this);
-        // Plugin startup logic
 
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        getLogger().info(getUtilManager().getColor().addColor(""));
     }
 
     public UtilManager getUtilManager() {

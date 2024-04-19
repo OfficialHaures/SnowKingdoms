@@ -6,6 +6,7 @@ public class Color {
     public static String addColor(String string){
 
         ChatColor.translateAlternateColorCodes('&', string);
+
         return string;
     }
 }

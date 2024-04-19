@@ -1,8 +1,6 @@
 package nl.officialhaures.snow.commands;
 
-import me.mattstudios.mf.annotations.Alias;
-import me.mattstudios.mf.annotations.Command;
-import me.mattstudios.mf.annotations.Default;
+import me.mattstudios.mf.annotations.*;
 import me.mattstudios.mf.base.CommandBase;
 import nl.officialhaures.snow.SnowPix;
 import org.bukkit.command.CommandSender;
@@ -14,12 +12,12 @@ public class KingdomCommands extends CommandBase {
 
     private SnowPix plugin;
 
-    public KingdomCommands(SnowPix plugin){
+    public KingdomCommands(SnowPix plugin) {
         this.plugin = plugin;
     }
 
     @Default
-    public void onDefaultChat(final CommandSender sender){
+    public void onDefaultChat(final CommandSender sender) {
         sender.sendMessage(plugin.getUtilManager().getColor().addColor("&l-------------------------"));
         sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6Kingdom Commands:"));
         sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom create <name>"));
@@ -33,5 +31,13 @@ public class KingdomCommands extends CommandBase {
         sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom ally <kingdom> - Make peace with another kingdom"));
 
         sender.sendMessage(plugin.getUtilManager().getColor().addColor("&l-------------------------"));
+    }
+
+    @SubCommand("create")
+    @Permission("kingdom.create")
+    public void onKingdomCreate(final CommandSender sender, final String name) {
+        if (!sender.hasPermission("kingdom.create")) {
+            sender.sendMessage(plugin.getUtilManager().getColor().addColor("&cYou do not have permission to create a kingdom."));
+        }
     }
 }
