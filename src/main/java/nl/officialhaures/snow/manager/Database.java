@@ -6,25 +6,26 @@ import java.sql.SQLException;
 
 public class Database {
 
-   private static  String DB_HOST = "localhost";
-   private static int DB_PORT = 3306;
-   private static String DB_NAME = "kingdom";
-   private static String DB_USER = "root";
-   private static String DB_PASSWORD = "";
+    private static String DB_HOST = "localhost";
+    private static int DB_PORT = 3306;
+    private static String DB_NAME = "kingdom";
+    private static String DB_USER = "root";
+    private static String DB_PASSWORD = "";
 
-     public static Connection connection;
+    public static Connection connection;
 
     public static Connection getConnection() {
-        if(connection == null ){
+        if (connection == null) {
             try {
                 String url = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
                 connection = DriverManager.getConnection(url, DB_USER, DB_PASSWORD);
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
         return connection;
     }
+
 
     public static void closeConnection() {
         if (connection != null) {
@@ -33,6 +34,15 @@ public class Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void executeQuery(String query) {
+        try {
+            Connection connection = getConnection();
+            connection.createStatement().executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
