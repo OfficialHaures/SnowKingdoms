@@ -1,8 +1,8 @@
 package nl.officialhaures.snow.manager;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
 
@@ -40,10 +40,28 @@ public class Database {
     public static void executeQuery(String query) {
         try {
             Connection connection = getConnection();
-            connection.createStatement().executeUpdate(query);
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    public static List<String> getKingdoms() {
+        List<String> kingdoms = new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT name FROM kingdoms");
+            while (resultSet.next()) {
+                kingdoms.add(resultSet.getString("name"));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return kingdoms;
+    }
 }

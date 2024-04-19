@@ -3,6 +3,7 @@ package nl.officialhaures.snow.commands;
 import me.mattstudios.mf.annotations.*;
 import me.mattstudios.mf.base.CommandBase;
 import nl.officialhaures.snow.SnowPix;
+import nl.officialhaures.snow.manager.Database;
 import org.bukkit.command.CommandSender;
 
 @Command("kingdom")
@@ -15,10 +16,12 @@ public class KingdomCommands extends CommandBase {
     public KingdomCommands(SnowPix plugin) {
         this.plugin = plugin;
     }
+    Database db = new Database();
 
     @Default
     public void onDefaultChat(final CommandSender sender) {
         sender.sendMessage(plugin.getUtilManager().getColor().addColor("&l-------------------------"));
+
         sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6Kingdom Commands:"));
         sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom create <name>"));
         sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom list - Get all the kingdom names"));
@@ -39,5 +42,18 @@ public class KingdomCommands extends CommandBase {
         if (!sender.hasPermission("kingdom.create")) {
             sender.sendMessage(plugin.getUtilManager().getColor().addColor("&cYou do not have permission to create a kingdom."));
         }
+    }
+
+    @SubCommand("list")
+    public void onListCommand(final CommandSender sender){
+        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6Kingdom List:"));
+        for (String kingdom : db.getKingdoms()) {
+            sender.sendMessage(plugin.getUtilManager().getColor().addColor("&e- " + kingdom));
+        }
+    }
+
+    @SubCommand("info")
+    public void onKingdomInfo(final CommandSender sender, final String kingdom) {
+
     }
 }
