@@ -3,8 +3,14 @@ package nl.officialhaures.snow.commands;
 import me.mattstudios.mf.annotations.*;
 import me.mattstudios.mf.base.CommandBase;
 import nl.officialhaures.snow.SnowPix;
+import nl.officialhaures.snow.manager.Database;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Command("kingdom")
@@ -115,10 +121,44 @@ public class KingdomCommands extends CommandBase {
 
     }
 
+    //Not sure if disband works
     @SubCommand("disband")
     @Permission("kingdom.king")
     public void onDisbandKingdom(final CommandSender sender) {
+        // Controleer of de afzender een speler is
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("Only players can disband a kingdom.");
+            return;
+        }
 
+        Player player = (Player) sender;
+        String playerName = player.getName();
+
+        Connection conn = Database.getConnection();
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT kingdom FROM players WHERE name = ?");
+            stmt.setString(1, playerName);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String kingdomName = rs.getString("kingdom");
+
+                // Ontbind het koninkrijk in de database
+                plugin.getDatabase().executeQuery("DELETE FROM kingdoms WHERE name = '" + kingdomName + "'");
+                plugin.getDatabase().executeQuery("UPDATE players SET kingdom = NULL WHERE kingdom = '" + kingdomName + "'");
+
+                player.sendMessage("The kingdom " + kingdomName + " is disband.");
+            } else {
+                player.sendMessage("You are not longer a king of a kingdom, so you cannot disband it.");
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Database.closeConnection();
+        }
     }
 
     @SubCommand("setrank")

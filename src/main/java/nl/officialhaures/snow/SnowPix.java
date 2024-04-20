@@ -19,6 +19,7 @@ public final class SnowPix extends JavaPlugin {
     public void onEnable() {
         instance = this;
         database = new Database();
+        database.initialize();
         commandManager.register(new KingdomCommands(instance));
         utilManager = new UtilManager();
         getServer().getPluginManager().registerEvents(new PlayerListeners(instance), this);

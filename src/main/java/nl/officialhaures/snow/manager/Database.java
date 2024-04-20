@@ -64,4 +64,34 @@ public class Database {
         }
         return kingdoms;
     }
+
+    public static void initialize() {
+
+
+        try {
+            getConnection();
+            String createKingdomsTable = "CREATE TABLE IF NOT EXISTS kingdoms (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "name TEXT UNIQUE NOT NULL," +
+                    "king TEXT NOT NULL" +
+                    ")";
+            executeUpdate(createKingdomsTable);
+
+            String createPlayersTable = "CREATE TABLE IF NOT EXISTS players (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "name TEXT UNIQUE NOT NULL," +
+                    "kingdom TEXT," +
+                    "FOREIGN KEY(kingdom) REFERENCES kingdoms(name) ON DELETE SET NULL" +
+                    ")";
+            executeUpdate(createPlayersTable);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void executeUpdate(String query) throws SQLException{
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(query);
+        stmt.close();
+    }
 }
