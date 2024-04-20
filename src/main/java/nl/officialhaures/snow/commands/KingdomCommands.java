@@ -3,7 +3,6 @@ package nl.officialhaures.snow.commands;
 import me.mattstudios.mf.annotations.*;
 import me.mattstudios.mf.base.CommandBase;
 import nl.officialhaures.snow.SnowPix;
-import nl.officialhaures.snow.manager.Database;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -45,11 +44,11 @@ public class KingdomCommands extends CommandBase {
     public void onKingdomCreate(final CommandSender sender, final String name) {
         if (!sender.hasPermission("kingdom.create")) {
             sender.sendMessage(plugin.getUtilManager().getColor().addColor("&cYou do not have permission to create a kingdom."));
-        return;
+            return;
         }
 
         List<String> existingKingdoms = plugin.getDatabase().getKingdoms();
-        if(existingKingdoms.contains(name)){
+        if (existingKingdoms.contains(name)) {
             sender.sendMessage(plugin.getUtilManager().getColor().addColor("&cA kingdom with that name already exists."));
             return;
         }
@@ -69,9 +68,17 @@ public class KingdomCommands extends CommandBase {
     }
 
     @SubCommand("info")
-    public void onKingdomInfo(final CommandSender sender, final String kingdom) {
+    public void onKingdomInfo(final CommandSender sender, final String kingdomName) {
+        List<String> kingdoms = plugin.getDatabase().getKingdoms();
 
+        if (kingdoms.contains(kingdomName)) {
+            sender.sendMessage("Informatie about the kingdom called: " + kingdomName + ":");
+            // Retrieve and display kingdom information from the database
+        } else {
+            sender.sendMessage("Kingdom: " + kingdomName + " not found.");
+        }
     }
+
 
     @SubCommand("join")
     public void onKingdomJoin(final CommandSender sender, final String kingdom) {
@@ -107,15 +114,18 @@ public class KingdomCommands extends CommandBase {
     public void onAllyKingdom(final CommandSender sender, final String kingdom) {
 
     }
+
     @SubCommand("disband")
     @Permission("kingdom.king")
-    public void onDisbandKingdom(final CommandSender sender){
+    public void onDisbandKingdom(final CommandSender sender) {
 
     }
 
     @SubCommand("setrank")
     @Permission("kingdom.setrank")
-    public void onSetRank(final CommandSender sender, final String name, final String rank){
-
+    public void onSetRank(final CommandSender sender, final String playerName, final String newRank) {
+        String query = "UPDATE players SET rank = '" + newRank + "' WHERE name = '" + playerName + "'";
+        plugin.getDatabase().executeQuery(query);
+        sender.sendMessage("The rank of " + playerName + " is updated to " + newRank);
     }
 }
