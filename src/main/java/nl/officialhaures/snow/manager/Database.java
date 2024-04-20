@@ -64,6 +64,18 @@ public class Database {
         }
         return kingdoms;
     }
+    public static Integer getMembers() {
+        Integer members = 0;
+        try {
+            Connection connection = getConnection();
+            members = connection.createStatement().executeUpdate("SELECT Leden FROM kingdoms");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return members;
+
+    }
 
 //    public static void initialize() {
 //

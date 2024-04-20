@@ -63,7 +63,7 @@ public class KingdomCommands extends CommandBase {
 
     @SubCommand("create")
     @Permission("kingdom.create")
-    public void onKingdomCreate(final CommandSender sender, final String name) {
+    public void onKingdomCreate(final CommandSender sender, String[] args) {
         if (!sender.hasPermission("kingdom.create")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     ("&cYou do not have permission to create a kingdom.")));
@@ -79,7 +79,7 @@ public class KingdomCommands extends CommandBase {
             return;
         }
 
-        String query = "INSERT INTO `kingdoms`(`Name`) VALUES ('[value-1]')";
+        String query = "INSERT INTO `kingdoms`(`Name`) VALUES ('" + kdname + "')";
         plugin.getDatabase().executeQuery(query);
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 ("&aKingdom &e" + kdname + "&a has been created.")));
@@ -99,10 +99,14 @@ public class KingdomCommands extends CommandBase {
     @SubCommand("info")
     public void onKingdomInfo(final CommandSender sender, final String kingdomName) {
         List<String> kingdoms = plugin.getDatabase().getKingdoms();
+        Integer members = plugin.getDatabase().getMembers();
 
         if (kingdoms.contains(kingdomName)) {
-            sender.sendMessage("Informatie about the kingdom called: " + kingdomName + ":");
-            // Retrieve and display kingdom information from the database
+            sender.sendMessage(ChatColor.GOLD + "Information about the kingdom");
+            sender.sendMessage(ChatColor.GOLD + "Name: " + ChatColor.YELLOW + kingdomName);
+            sender.sendMessage(ChatColor.GOLD + "King: " + ChatColor.YELLOW + "Functie in onderhoud");
+            sender.sendMessage(ChatColor.GOLD + "Members: " + ChatColor.YELLOW + members.toString());
+
         } else {
             sender.sendMessage("Kingdom: " + kingdomName + " not found.");
         }

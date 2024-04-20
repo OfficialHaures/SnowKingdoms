@@ -6,6 +6,8 @@ import nl.officialhaures.snow.events.KingdomChatListener;
 import nl.officialhaures.snow.events.PlayerListeners;
 import nl.officialhaures.snow.manager.Database;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.Bukkit;
+
 
 public final class SnowPix extends JavaPlugin {
 
