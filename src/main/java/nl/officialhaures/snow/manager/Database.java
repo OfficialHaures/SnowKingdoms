@@ -6,18 +6,18 @@ import java.util.List;
 
 public class Database {
 
-    private static String DB_HOST = "localhost";
+    private static String DB_HOST = "38.129.16.122";
     private static int DB_PORT = 3306;
     private static String DB_NAME = "kingdom";
-    private static String DB_USER = "root";
-    private static String DB_PASSWORD = "";
+    private static String DB_USER = "u1_qTsu14OICz";
+    private static String DB_PASSWORD = "@RVeT53^Ktl45iUw2gonF8hK";
 
     public static Connection connection;
 
     public static Connection getConnection() {
         if (connection == null) {
             try {
-                String url = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
+                String url = "jdbc:mysql://u1_qTsu14OICz:%40RVeT53%5EKtl45iUw2gonF8hK@38.129.16.122:3306/s1_KingdomDB";
                 connection = DriverManager.getConnection(url, DB_USER, DB_PASSWORD);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -65,33 +65,33 @@ public class Database {
         return kingdoms;
     }
 
-    public static void initialize() {
-
-
-        try {
-            getConnection();
-            String createKingdomsTable = "CREATE TABLE IF NOT EXISTS kingdoms (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "name TEXT UNIQUE NOT NULL," +
-                    "king TEXT NOT NULL" +
-                    ")";
-            executeUpdate(createKingdomsTable);
-
-            String createPlayersTable = "CREATE TABLE IF NOT EXISTS players (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "name TEXT UNIQUE NOT NULL," +
-                    "kingdom TEXT," +
-                    "FOREIGN KEY(kingdom) REFERENCES kingdoms(name) ON DELETE SET NULL" +
-                    ")";
-            executeUpdate(createPlayersTable);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private static void executeUpdate(String query) throws SQLException{
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate(query);
-        stmt.close();
-    }
+//    public static void initialize() {
+//
+//
+//        try {
+//            getConnection();
+//            String createKingdomsTable = "CREATE TABLE IF NOT EXISTS kingdoms (" +
+//                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+//                    "name TEXT UNIQUE NOT NULL," +
+//                    "king TEXT NOT NULL" +
+//                    ")";
+//            executeUpdate(createKingdomsTable);
+//
+//            String createPlayersTable = "CREATE TABLE IF NOT EXISTS players (" +
+//                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+//                    "name TEXT UNIQUE NOT NULL," +
+//                    "kingdom TEXT," +
+//                    "FOREIGN KEY(kingdom) REFERENCES kingdoms(name) ON DELETE SET NULL" +
+//                    ")";
+//            executeUpdate(createPlayersTable);
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
+//
+//    private static void executeUpdate(String query) throws SQLException{
+//        Statement stmt = connection.createStatement();
+//        stmt.executeUpdate(query);
+//        stmt.close();
+//    }
 }

@@ -1,6 +1,7 @@
 package nl.officialhaures.snow.events;
 
 import nl.officialhaures.snow.SnowPix;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +18,7 @@ public class PlayerListeners implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if(player.hasPlayedBefore()){
-            player.sendMessage(plugin.getUtilManager().getColor().addColor("&a&lWelcome back &f" + player.getDisplayName()));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&lWelcome back &f" + player.getDisplayName()));
 
         }
     }

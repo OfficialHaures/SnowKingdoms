@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public class KingdomChatManager {
     public static final String PUBLIC_PREFIX = "§7[§6Public§7] §r";
     public static final String ROLEPLAY_PREFIX = "§7[§5Roleplay§7] §r";
-    public static final String DEFAULT_PREFIX = "§7[§aDefault§7] §r";
+    public static final String DEFAULT_PREFIX = "§7[§aKD§7] §r";
 
 
     public static void sendMessage(Player player, ChatType chatType, String message){

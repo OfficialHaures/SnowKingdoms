@@ -5,12 +5,10 @@ import nl.officialhaures.snow.commands.KingdomCommands;
 import nl.officialhaures.snow.events.KingdomChatListener;
 import nl.officialhaures.snow.events.PlayerListeners;
 import nl.officialhaures.snow.manager.Database;
-import nl.officialhaures.snow.manager.UtilManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SnowPix extends JavaPlugin {
 
-    private UtilManager utilManager;
     private SnowPix instance;
     CommandManager commandManager;
     Database database;
@@ -19,9 +17,10 @@ public final class SnowPix extends JavaPlugin {
     public void onEnable() {
         instance = this;
         database = new Database();
-        database.initialize();
+        database.getConnection();
+//        database.initialize();
+        commandManager = new CommandManager(instance);
         commandManager.register(new KingdomCommands(instance));
-        utilManager = new UtilManager();
         getServer().getPluginManager().registerEvents(new PlayerListeners(instance), this);
         getServer().getPluginManager().registerEvents(new KingdomChatListener(), this);
 
@@ -29,11 +28,8 @@ public final class SnowPix extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().info(getUtilManager().getColor().addColor(""));
-    }
-
-    public UtilManager getUtilManager() {
-        return utilManager;
+        getLogger().info("TETEWATS");
+        database.closeConnection();
     }
 
     public Database getDatabase() {

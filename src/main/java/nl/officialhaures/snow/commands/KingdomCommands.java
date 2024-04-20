@@ -4,6 +4,7 @@ import me.mattstudios.mf.annotations.*;
 import me.mattstudios.mf.base.CommandBase;
 import nl.officialhaures.snow.SnowPix;
 import nl.officialhaures.snow.manager.Database;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,50 +27,72 @@ public class KingdomCommands extends CommandBase {
 
     @Default
     public void onDefaultChat(final CommandSender sender) {
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&l-------------------------"));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&l-------------------------")));
 
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6Kingdom Commands:"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom create <name>"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom list - Get all the kingdom names"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom info <kingdom> - Get information on a specific kingdom"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom join <kingdom> - Join a kingdom"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom invite <name> - Invite someone to a kingdom"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom leave - Leave your current kingdom"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom kick - Kick a player out of the kingdom"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom togglepvp - Toggled friendlyfire in the kingdom"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom enemy <kingdom> - Declare war on another kingdom"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom ally <kingdom> - Make peace with another kingdom"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom disband - Disband the kingdom"));
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6/kingdom setrank <name> <rank> - Gives a kingdommember a new rank"));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6Kingdom Commands:")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom create <name>")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom list - Get all the kingdom names")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom info <kingdom> - Get information on a specific kingdom")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom join <kingdom> - Join a kingdom")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom invite <name> - Invite someone to a kingdom")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom leave - Leave your current kingdom")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom kick - Kick a player out of the kingdom")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom togglepvp - Toggled friendlyfire in the kingdom")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom enemy <kingdom> - Declare war on another kingdom")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom ally <kingdom> - Make peace with another kingdom")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom disband - Disband the kingdom")));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6/kingdom setrank <name> <rank> - Gives a kingdommember a new rank")));
 
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&l-------------------------"));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&l-------------------------")));
     }
 
     @SubCommand("create")
     @Permission("kingdom.create")
     public void onKingdomCreate(final CommandSender sender, final String name) {
         if (!sender.hasPermission("kingdom.create")) {
-            sender.sendMessage(plugin.getUtilManager().getColor().addColor("&cYou do not have permission to create a kingdom."));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    ("&cYou do not have permission to create a kingdom.")));
             return;
         }
 
+        String kdname = args[1];
+
         List<String> existingKingdoms = plugin.getDatabase().getKingdoms();
-        if (existingKingdoms.contains(name)) {
-            sender.sendMessage(plugin.getUtilManager().getColor().addColor("&cA kingdom with that name already exists."));
+        if (existingKingdoms.contains(kdname)) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    ("&cA kingdom with that name already exists.")));
             return;
         }
 
         String query = "INSERT INTO `kingdoms`(`Name`) VALUES ('[value-1]')";
         plugin.getDatabase().executeQuery(query);
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&aKingdom &e" + name + "&a has been created."));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&aKingdom &e" + kdname + "&a has been created.")));
 
     }
 
     @SubCommand("list")
     public void onListCommand(final CommandSender sender) {
-        sender.sendMessage(plugin.getUtilManager().getColor().addColor("&6Kingdom List:"));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                ("&6Kingdom List:")));
         for (String kingdom : plugin.getDatabase().getKingdoms()) {
-            sender.sendMessage(plugin.getUtilManager().getColor().addColor("&e- " + kingdom));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    ("&e- " + kingdom)));
         }
     }
 
